@@ -53,9 +53,11 @@ da_status da_append(DynArray *arr, int val);
 da_status da_get(const DynArray *arr, size_t index, int *out_val);
 da_status da_set(DynArray *arr, size_t index, int val);
 da_status da_pop(DynArray *arr, int *out_val);
+// index may equal length (same as append)
 da_status da_insert_at(DynArray *arr, size_t index, int val);
+// out_val may be NULL if the removed value isn't needed
 da_status da_remove_at(DynArray *arr, size_t index, int *out_val);
-da_status da_len(DynArray *array, int *out_val);
+size_t da_len(const DynArray *arr);
 
 
 
