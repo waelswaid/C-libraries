@@ -44,7 +44,8 @@ typedef enum {
     DA_OK = 0,
     DA_ERR_ALLOC,        // malloc/realloc failed
     DA_ERR_OUT_OF_BOUNDS, // index out of range
-    DA_ERR_EMPTY         // example if pop on empty array
+    DA_ERR_EMPTY,         // example if pop on empty array
+    DA_ERR_NULL_ARR      // null array
 } da_status;
 
 da_status da_init(DynArray *arr);
