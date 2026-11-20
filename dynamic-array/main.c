@@ -21,7 +21,7 @@ int main(void)
     da_pop(&arr,&out_val);
     printf("popped value: %d\n",out_val);
     da_print(&arr);
-    da_insert_at(&arr,2,26);
+    da_insert_at(&arr,0,26);
     da_print(&arr);
     da_remove_at(&arr,2,NULL);
     da_print(&arr);

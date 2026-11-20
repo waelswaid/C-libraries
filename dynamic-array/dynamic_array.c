@@ -11,7 +11,7 @@ da_status da_init(DynArray *arr)
     //caller passes da_init(NULL)
     if(!arr)
         return DA_ERR_NULL_ARR;  
-    arr->ptr = malloc(INITIAL_CAP*sizeof(arr->ptr));
+    arr->ptr = malloc(INITIAL_CAP*sizeof(*arr->ptr));
     if(!(arr->ptr))
         return DA_ERR_ALLOC;
     arr->cap = INITIAL_CAP;
@@ -81,7 +81,6 @@ da_status da_pop(DynArray *arr, int *out_val)
 
 }
 
-//TODO:rewrite with memmove()
 da_status da_insert_at(DynArray *arr, size_t index, int val)
 {
     if(index>arr->length)
@@ -93,8 +92,13 @@ da_status da_insert_at(DynArray *arr, size_t index, int val)
         if(ret!=DA_OK)
             return ret;
     }
-    if (index==arr->length)
-        return da_append(arr,val);
+
+    memmove(arr->ptr+index+1,arr->ptr+index,(arr->length-index)*sizeof(*arr->ptr));
+    arr->ptr[index] = val;
+    arr->length++;
+    return DA_OK;
+
+/*
     int *tmp = malloc(arr->cap*sizeof(*arr->ptr));
     if(!tmp)
         return DA_ERR_ALLOC;
@@ -106,7 +110,7 @@ da_status da_insert_at(DynArray *arr, size_t index, int val)
     free(arr->ptr);
     arr->ptr = tmp;
     return DA_OK;
-
+*/
 }
  
 da_status da_remove_at(DynArray *arr, size_t index, int *out_val)
