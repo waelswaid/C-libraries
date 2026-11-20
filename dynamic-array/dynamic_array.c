@@ -76,11 +76,12 @@ da_status da_pop(DynArray *arr, int *out_val)
         return DA_ERR_EMPTY;
 
     assert(out_val!=NULL);
-    *out_val = arr->ptr[arr->length--];
+    *out_val = arr->ptr[--arr->length];
     return DA_OK;
 
 }
 
+//TODO:rewrite with memmove()
 da_status da_insert_at(DynArray *arr, size_t index, int val)
 {
     if(index>arr->length)
@@ -108,4 +109,36 @@ da_status da_insert_at(DynArray *arr, size_t index, int val)
 
 }
  
+da_status da_remove_at(DynArray *arr, size_t index, int *out_val)
+{
+    //{0,1,2,3,4} --> da_remove_at(index=2) --> {0,1,3,4}
+    //{0,1,2,3,4} --> loop(mv index+1->index), length--; --> {0,1,3,4}
+    //memory illustration: {0,1,2,3,4} --> {0,1,3,3,4} --> {0,1,3,4,4} --> {0,1,3,4}
+    if(index>=arr->length)
+        return DA_ERR_OUT_OF_BOUNDS;
+    
+    if(out_val)
+        *out_val = arr->ptr[index];
 
+    memmove(arr->ptr+index, arr->ptr+index+1,(arr->length-index-1)*sizeof(*arr->ptr));
+    arr->ptr[--arr->length] = 0;
+    return DA_OK;
+}
+
+size_t da_len(const DynArray *arr)
+{
+    return arr->length;
+}
+size_t da_cap(const DynArray *arr)
+{
+    return arr->cap;
+}
+
+void da_print(const DynArray *arr)
+{
+    assert(arr->length>0);
+        
+    for(size_t i = 0; i < arr->length; i++)
+        printf("%d  ",arr->ptr[i]);
+    printf("\n");
+}

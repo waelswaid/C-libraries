@@ -48,17 +48,25 @@ typedef enum {
     DA_ERR_NULL_ARR      // null array
 } da_status;
 
+
+//init array with length = 0, cap = 2
 da_status da_init(DynArray *arr);
 void da_free(DynArray *arr);
+//add element to the end of the array
 da_status da_append(DynArray *arr, int val);
+//get element by index
 da_status da_get(const DynArray *arr, size_t index, int *out_val);
+//set element by index
 da_status da_set(DynArray *arr, size_t index, int val);
+//delete last element and store it in out_val
 da_status da_pop(DynArray *arr, int *out_val);
 // index may equal length (same as append)
 da_status da_insert_at(DynArray *arr, size_t index, int val);
 // out_val may be NULL if the removed value isn't needed
 da_status da_remove_at(DynArray *arr, size_t index, int *out_val);
 size_t da_len(const DynArray *arr);
+size_t da_cap(const DynArray *arr);
+void da_print(const DynArray *arr);
 
 
 
